@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SupabaseService } from './supabase';
+import { SupabaseService } from './supabase'; // Verifica si es .service
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -53,5 +53,14 @@ export class AuthService {
     await this.supabaseService.supabase.auth.signOut();
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
+  }
+
+  // --- ESTO ES LO QUE TE FALTABA ---
+  get currentRole(): string {
+    return this.currentUserSubject.value?.rol || '';
+  }
+
+  get isAdmin(): boolean {
+    return this.currentRole === 'ADMIN';
   }
 }
